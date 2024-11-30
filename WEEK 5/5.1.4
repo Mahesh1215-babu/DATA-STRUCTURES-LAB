@@ -1,0 +1,118 @@
+#include<stdio.h>
+#include<stdlib.h>
+#include "AVLTreeInsertionInorder.c"
+
+int main() {
+	int x, op;
+	AVLNODE root = NULL;
+	while(1) {
+		printf("1.Insert 2.Inorder Traversal 3.Exit\n");
+		printf("Enter your option : ");
+		scanf("%d", &op);
+		switch(op) {
+			case 1:	printf("Enter an element to be inserted : ");
+					scanf("%d", &x);
+					root = insertNodeInAVL(root,x);
+					break;
+			case 2:
+					if(root == NULL) {
+						printf("AVL Tree is empty.\n");
+					}
+					else {
+						printf("Elements of the AVL tree (in-order traversal): ");
+						inorderInAVL(root);
+						printf("\n");
+					}
+					break;
+			case 3:	exit(0);
+		}
+	}
+}
+struct node {
+	root->right=rotateRight(root->right);
+	root=rotateLeft(root);
+	return(root);
+}
+typedef struct node * AVLNODE;
+
+AVLNODE rotateLeft(AVLNODE x) {
+	AVLNODE y;
+	y=x->right;
+	x->right=y->left;
+	y->left=x;
+	x->ht=height(x);
+	y->ht=height(y);
+	return(y);
+}
+
+AVLNODE LL(AVLNODE root) {
+	root=rotateLeft(root);
+	return(root);
+}
+
+
+AVLNODE RR(AVLNODE root) {
+	root=rotateRight(root);
+	return(root);
+}
+
+AVLNODE LR(AVLNODE root) {
+	root->left=rotateLeft(root->left);
+	root=rotateRight(root);
+	return(root);
+}
+
+AVLNODE RL(AVLNODE root) {
+	root->right=rotateRight(root->right);
+	root=rotateLeft(root);
+	return(root);
+}
+
+int balancefactor(AVLNODE root) {
+	int lh,rh;
+	if(root == NULL)
+		return(0);
+	if(root->left == NULL)
+		lh=0;
+	else
+		lh=1+root->left->ht;
+	if(root->right == NULL)
+		rh=0;
+	else
+		rh=1+root->right->ht;
+	return(lh-rh);
+}
+
+void inorderInAVL(AVLNODE root) {
+	if(root != NULL){
+		inorderInAVL(root->left);
+		printf("%d(%d) ",root->data,balancefactor(root));
+		inorderInAVL(root->right);
+	}
+}
+
+AVLNODE insertNodeInAVL(AVLNODE root,int x) {
+	if(root == NULL){
+		root = createNodeInAVL(x);
+		printf("Successfully inserted.\n");
+	} else if(x > root->data){
+		root->right = insertNodeInAVL(root->right,x);
+		if(balancefactor(root) == -2){
+			if(x > root->right->data)
+				root = LL(root);
+			else
+				root = RL(root);
+		}
+	}else if(x < root->data){
+		root->left = insertNodeInAVL(root->left,x);
+		if(balancefactor(root) == 2){
+			if(x < root->left->data)
+				root = RR(root);
+			else
+				root = LR(root);
+		}
+	}else
+		printf("Element %d already exists.\n",x);
+	root->ht = height(root);
+	return(root);
+}
