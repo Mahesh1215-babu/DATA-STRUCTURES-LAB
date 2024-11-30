@@ -1,0 +1,122 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+typedef struct Node {
+    int data;
+    struct Node *left, *right;
+} Node;
+
+Node* newNode(int data) {
+    Node* temp = (Node*)malloc(sizeof(Node));
+    temp->data = data;
+    temp->left = temp->right = NULL;
+    return temp;
+}
+
+void insert(Node** root, int data) {
+    if (*root == NULL) {
+        *root = newNode(data);
+    } else {
+        if (data < (*root)->data) {
+            insert(&((*root)->left), data);
+        } else if (data > (*root)->data) {
+            insert(&((*root)->right), data);
+        } else {
+            printf("Node already exists in the tree.\n");
+        }
+    }
+}
+
+Node* search(Node* root, int data) {
+    if (root == NULL || root->data == data) {
+        return root;
+    } else if (data < root->data) {
+        return search(root->left, data);
+    } else {
+        return search(root->right, data);
+    }
+}
+
+void delete_node(Node** root, int data) {
+    Node* temp = *root;
+    Node* parent = NULL;
+
+    // Find the node to be deleted
+    while (temp != NULL && temp->data != data) {
+        parent = temp;
+        if (data < temp->data) {
+            temp = temp->left;
+        } else {
+            temp = temp->right;
+        }
+    }
+
+    if (temp == NULL) {
+        printf("Node not found\n");
+        return;
+    }
+
+    // Case 1: Node has no children
+    if (temp->left == NULL && temp->right == NULL) {
+
+
+void display(Node* root) {
+    if (root != NULL) {
+        display(root->left);
+        printf("%d ", root->data);
+        display(root->right);
+    }
+}
+
+void free_tree(Node* root) {
+    if (root != NULL) {
+        free_tree(root->left);
+        free_tree(root->right);
+        free(root);
+    }
+}
+
+
+int main() {
+    Node *root = NULL;
+    int choice, data;
+    while (1) {
+        printf("1.Insert node\n");
+        printf("2.Search for node\n");
+        printf("3.Delete node\n");
+        printf("4.Display tree\n");
+        printf("5.Exit\n");
+        printf("Enter choice: ");
+        scanf("%d", &choice);
+        switch (choice) {
+            case 1:
+                printf("Insert Node: ");
+                scanf("%d", &data);
+                insert(&root, data);
+                break;
+            case 2:
+                printf("Search Node: ");
+                scanf("%d", &data);
+                if (search(root, data) != NULL) {
+                    printf("Node found\n");
+                } else {
+                    printf("Node not found\n");
+                }
+                break;
+            case 3:
+                printf("Delete node: ");
+                scanf("%d", &data);
+                delete_node(&root, data);
+                break;
+            case 4:
+                display(root);
+                printf("\n");
+                break;
+            case 5:
+                free_tree(root);
+                exit(0);
+            default:
+                printf("Invalid choice\n");
+        }
+    }
+}
