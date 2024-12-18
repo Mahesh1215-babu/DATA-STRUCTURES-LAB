@@ -1,5 +1,20 @@
-
 #include <stdio.h>
+
+// Enumeration for temperature scale
+enum Scale {
+    CELSIUS,
+    FAHRENHEIT
+};
+
+// Write code to create Union to store temperature values
+union Temperature{
+float celsius;
+float fahrenheit;
+};
+// Structure to combine temperature value and scale
+struct TemperatureData {
+    union Temperature value;
+enum Scale scale;
 };
 
 // Function to convert temperature and print the result
@@ -7,13 +22,16 @@ void convertTemperature(struct TemperatureData data) {
     float convertedTemp;
 
     if (data.scale == CELSIUS) {
-		float fahrenheit = (data.value.celsius * 9 / 5 )+ 32;
         // convertedTemp = data.value.celsius * 9 / 5 + 32;
-        printf("%.2f degrees Celsius is %.2f degrees Fahrenheit.\n",data.value.celsius,fahrenheit );
+		float fahrenheit = (data.value.celsius*9/5)+32;
+        printf("%.2f degrees Celsius is %.2f degrees Fahrenheit.\n", data.value.celsius,fahrenheit);
     } else {
+convertedTemp = (data.value.fahrenheit - 32) * 5 / 9;
+float celsius = (data.value.fahrenheit-32)*5/9;
+
+
         // convertedTemp = (data.value.fahrenheit - 32) * 5 / 9;
-		float celsius= (data.value.fahrenheit - 32) * 5 / 9;
-        printf("%.2f degrees Fahrenheit is %.2f degrees Celsius.\n",data.value.fahrenheit,celsius);
+        printf("%.2f degrees Fahrenheit is %.2f degrees Celsius.\n", data.value.fahrenheit,celsius);
     }
 }
 
