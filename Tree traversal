@@ -55,8 +55,7 @@ void main() {
  int x, op; 
  BSTNODE root = NULL; 
  while(1) { 
-  printf("1.Insert 2.Inorder Traversal 3.Preorder Traversal 4.Postorder Traversal 
-5.Exit\n"); 
+  printf("1.Insert 2.Inorder Traversal 3.Preorder Traversal 4.Postorder Traversal 5.Exit\n"); 
   printf("Enter your option : "); 
   scanf("%d", &op); 
   switch(op) { 
